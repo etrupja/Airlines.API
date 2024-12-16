@@ -1,4 +1,5 @@
 ﻿using Airlines.API.Dtos;
+using Airlines.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,21 @@ namespace Airlines.API.Controllers
         [HttpGet("GetAirlines", Name = "GetAirlines")]
         public IActionResult GetAirlinesss()
         {
-            return Ok();
+            var list = new List<Airline>()
+            {
+                new Airline()
+                {
+                    Id = 1,
+                    Name = "Wizzair"
+                },
+                new Airline()
+                {
+                    Id = 1,
+                    Name = "Lufthansa"
+                }
+            };
+
+            return Ok(list);
         }
 
         [HttpGet("GetAirlineById", Name = "GetAirlineById")]
