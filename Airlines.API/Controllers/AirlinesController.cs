@@ -1,4 +1,5 @@
-﻿using Airlines.API.Dtos;
+﻿using Airlines.API.Data;
+using Airlines.API.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,8 @@ namespace Airlines.API.Controllers
         [HttpGet("GetAirlines", Name = "GetAirlines")]
         public IActionResult GetAirlinesss()
         {
-            return Ok();
+            var allAirlines = FakeDb.GetAllAirlines();
+            return Ok(allAirlines);
         }
 
         [HttpGet("GetAirlineById", Name = "GetAirlineById")]
