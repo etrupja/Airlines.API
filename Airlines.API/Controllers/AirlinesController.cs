@@ -24,12 +24,14 @@ namespace Airlines.API.Controllers
         [HttpGet("GetAirlineById", Name = "GetAirlineById")]
         public IActionResult GetAirlineById(int airlineId)
         {
-            return Ok();
+            var airline = FakeDb.GetAirlineById(airlineId);
+            return Ok(airline);
         }
 
         [HttpDelete("DeleteAirlineById", Name = "DeleteAirlineById")]
         public IActionResult DeleteAirlineById(int airlineId)
         {
+            FakeDb.DeleteAirlineById(airlineId);
             return Ok();
         }
 
@@ -39,20 +41,30 @@ namespace Airlines.API.Controllers
             if(airlineId != payload.Id)
                 return BadRequest("The airline id is not valid");
 
-            return Ok();
+            var updatedAirline = new Airline()
+            {
+                Id = payload.Id,
+                Name = payload.Name
+            };
+
+            FakeDb.UpdateAirlineById(airlineId, updatedAirline);
+
+            return Ok(updatedAirline);
         }
 
         [HttpPost("CreateAirline", Name = "CreateAirline")]
         public IActionResult CreateAirline([FromBody] CreateAirlineDto payload)
         {
-            //Create Airline Object
-            var newAirline = new Airline 
-            { 
-                Id = FakeDb.allFakeAirlines.Count + 1, 
-                Name = payload.Name 
+
+            //Create new airline object
+            var newAirline = new Airline
+            {
+                Id = FakeDb.allAirlinesFakeDb.Count + 1,
+                Name = payload.Name
             };
 
             FakeDb.AddNewAirline(newAirline);
+
 
             return Created();
         }
