@@ -10,28 +10,30 @@ namespace Airlines.API.Controllers
     [ApiController]
     public class AirlinesController : ControllerBase
     {
-        public AirlinesController()
+        private AirlinesService _airlinesService;
+        public AirlinesController(AirlinesService airlinesService)
         {
+            _airlinesService = airlinesService;
         }
 
         [HttpGet("GetAirlines", Name = "GetAirlines")]
         public IActionResult GetAirlinesss()
         {
-            var allAirlines = FakeDb.GetAllAirlines();
+            var allAirlines = _airlinesService.GetAllAirlines();
             return Ok(allAirlines);
         }
 
         [HttpGet("GetAirlineById", Name = "GetAirlineById")]
         public IActionResult GetAirlineById(int airlineId)
         {
-            var airline = FakeDb.GetAirlineById(airlineId);
+            var airline = _airlinesService.GetAirlineById(airlineId);
             return Ok(airline);
         }
 
         [HttpDelete("DeleteAirlineById", Name = "DeleteAirlineById")]
         public IActionResult DeleteAirlineById(int airlineId)
         {
-            FakeDb.DeleteAirlineById(airlineId);
+            _airlinesService.DeleteAirlineById(airlineId);
             return Ok();
         }
 
@@ -47,7 +49,7 @@ namespace Airlines.API.Controllers
                 Name = payload.Name
             };
 
-            FakeDb.UpdateAirlineById(airlineId, updatedAirline);
+            _airlinesService.UpdateAirlineById(airlineId, updatedAirline);
 
             return Ok(updatedAirline);
         }
@@ -59,11 +61,10 @@ namespace Airlines.API.Controllers
             //Create new airline object
             var newAirline = new Airline
             {
-                Id = FakeDb.allAirlinesFakeDb.Count + 1,
                 Name = payload.Name
             };
 
-            FakeDb.AddNewAirline(newAirline);
+            _airlinesService.AddNewAirline(newAirline);
 
 
             return Created();
